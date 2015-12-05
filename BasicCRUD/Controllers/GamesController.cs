@@ -9,17 +9,28 @@ namespace BasicCRUD.Controllers
 {
     public class GamesController : Controller
     {
+        //AJ 05/12/15 
+        //Hello Barry, if you are reading dis comments, its because probably something went very wrong, and i failed.
+        //You deserve the best, Barry, thats why im gonna give you what you most want in dis world. This project.
+        /* 
+         At this controller all magic comes up, All ActionResult methods are called from the view
+         
+         */
+        //With dis, you deposite all your models on your db into a variable for use it in this file
         gamesDBEntities db = new gamesDBEntities();
         // GET: Games
         public ActionResult Index()
         {
-            
+            //Look up for all registers in table games, and convert it to a list
+            //send the list to the view
             return View(db.Games.ToList());
         }
 
         // GET: Games/Details/5
         public ActionResult Details(int id)
         {
+            //search register in table by id and send it to the view
+            //FirstOrDefault Return first value SQL find, and if not, return a empty object
             Game _game = db.Games.FirstOrDefault(u => u.Id == id);
             return View(_game);
         }
@@ -27,18 +38,20 @@ namespace BasicCRUD.Controllers
         // GET: Games/Create
         public ActionResult Create()
         {
+            //get methods just calls the view
             return View();
         }
 
         // POST: Games/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection, Game postGame)
-        {
+        {//post methods recieve data
             try
             {
                 if (ModelState.IsValid)
-                {
+                {//if model isnt corrupt on data (validations that you choose when create database like, type, length, etc)
                     Game newGame = new Game();
+                    //create a new object and copy propierties of post object you recied
                     newGame.Name = postGame.Name;
                     newGame.Description = postGame.Description;
                     db.Games.Add(newGame);
@@ -67,6 +80,7 @@ namespace BasicCRUD.Controllers
                 // TODO: Add update logic here
                 if(ModelState.IsValid)
                 {
+                    //entry look for diffs in objects
                     db.Entry(postGame).State = EntityState.Modified;
                     db.SaveChanges();
                 }
